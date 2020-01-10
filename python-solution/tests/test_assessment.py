@@ -1,8 +1,8 @@
 import random
 from collections import defaultdict
 
-import assesment
-from assesment import get_combinations, get_assessment, run_assessment
+import assessment
+from assessment import get_combinations, get_assessment, run_assessment
 
 N = 5
 TEST_DIMENSIONS = [{
@@ -36,8 +36,8 @@ def test_assessment_structure():
 
 def test_assessment_questions():
     """
-    Test if all the questions in the assessment are from the dimension answers
-    and that all the dimensions answers are in the assessment
+    1. Test if all the questions in the assessment are from the dimension answers
+    2. If all the dimensions answers are in the assessment
     """
     assessment = get_assessment(TEST_DIMENSIONS)
     actual_dimensions = defaultdict(list)
@@ -52,13 +52,15 @@ def test_assessment_questions():
 
 def test_result():
     """
-    Test if all the TEST_DIMENSIONS names are all in the result
-    and the sum of the values is equal with the number of combinations
+    1. Test if the result is a dictionary
+    2. If all the TEST_DIMENSIONS names are all in the result
+    3. If the sum of the values is equal with the number of combinations
     """
     def mock_input():
         return random.choice(['1', '2'])
-    assesment.input = mock_input
+    assessment.input = mock_input
     result = run_assessment(TEST_DIMENSIONS)
+    assert type(result).__name__ == 'dict'
     actual_dimensions = [ad['name'] for ad in TEST_DIMENSIONS]
     assert [ed for ed in result if ed in actual_dimensions] == [ed for ed in result]
     assert [ed for ed in actual_dimensions if ed in result] == [ed for ed in actual_dimensions]
